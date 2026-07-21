@@ -14,8 +14,8 @@ local ABYSSAL_DEFAULT_SOUND = "rbxassetid://8784885431"
 shared.ACHIDATA = shared.ACHIDATA or { template = nil, gui = nil, queue = {}, processing = false, defaultSound = nil }
 local d = shared.ACHIDATA
 
-shared.MPARADOX = shared.MPARADOX or { template = nil, holder = nil, queue = {}, processing = false, defaultSound = nil }
-local mp = shared.MPARADOX
+shared.BlackKing = shared.BlackKing or { template = nil, holder = nil, queue = {}, processing = false, defaultSound = nil }
+local mp = shared.BlackKing
 
 local AbyssalState = {
     Container = nil,
@@ -685,13 +685,13 @@ local function notifyAbyssal(opts)
     end)
 end
 
-local function initMParadoxUI()
+local function initBlackKingUI()
     if mp.holder then return end
 
     local pg = Players.LocalPlayer:WaitForChild("PlayerGui")
 
     local sg = Instance.new("ScreenGui")
-    sg.Name = "MParadoxUI"
+    sg.Name = "BlackKingUI"
     sg.ResetOnSpawn = false
     sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     sg.Parent = pg
@@ -976,7 +976,7 @@ local function mp_promoteStack(removedDepth)
     end
 end
 
-local function showMParadox(opts)
+local function showBlackKing(opts)
     local clone = mp.template:Clone()
     clone.Parent = mp.holder
     clone:SetAttribute("MPDepth", 0)
@@ -1075,20 +1075,20 @@ local function showMParadox(opts)
     mp_promoteStack(myDepth)
 end
 
-local function processMParadoxQueue()
+local function processBlackKingQueue()
     if mp.processing then return end
     mp.processing = true
     while #mp.queue > 0 do
-        task.spawn(showMParadox, table.remove(mp.queue, 1))
+        task.spawn(showBlackKing, table.remove(mp.queue, 1))
         task.wait(0.5)
     end
     mp.processing = false
 end
 
-local function notifyMParadox(opts)
-    initMParadoxUI()
+local function notifyBlackKing(opts)
+    initBlackKingUI()
     table.insert(mp.queue, opts)
-    task.spawn(processMParadoxQueue)
+    task.spawn(processBlackKingQueue)
 end
 
 local STYLES = {
@@ -1104,7 +1104,7 @@ local STYLES = {
     Paradox  = function(opts)
         task.spawn(notifyParadox, opts)
     end,
-    MParadox = notifyMParadox,
+    BlackKing = notifyBlackKing,
     Roblox   = notifyRoblox,
     Abyssal  = notifyAbyssal,
 }
